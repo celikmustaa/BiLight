@@ -1,0 +1,31 @@
+# Compiled output
+out/
+bin/
+build/
+*.class
+*.jar
+
+# Run artifacts
+results.txt
+results*.txt
+hs_err_pid*.log
+replay_pid*.log
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test artifacts
+test/expected_counts.csv
+test/pylibs/
