@@ -120,6 +120,15 @@ public class ExactCountTest {
             if (!m12ok) failures++;
             System.out.printf("  %-5s N=%-6d  sum C(deg,5)=%-8d  %s%n",
                     "M12", m12brute, m12analytic, m12ok ? "OK" : "*** MISMATCH ***");
+
+            // (2b) the value the estimator actually outputs for M12 (Graph.starCountM12,
+            //      used by Sample.estimate) must equal the brute-force count too
+            double m12graph = g.starCountM12();
+            checks++;
+            boolean m12graphOk = (m12graph == (double) m12brute);
+            if (!m12graphOk) failures++;
+            System.out.printf("  %-5s N=%-6d  Graph.starCountM12=%-8.0f  %s%n",
+                    "M12", m12brute, m12graph, m12graphOk ? "OK" : "*** MISMATCH ***");
         }
 
         truth.close();

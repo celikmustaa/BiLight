@@ -21,12 +21,20 @@ public class Sample {
 
             for (int m = 0; m < motifs.size(); m++) {
                 Motif motif = motifs.get(m);
+                if (motif.coefficient == 0) continue;   // M12: exact, not sampled (below)
                 final_results[m] += (double) motif.count(fourPath, graph);
             }
         }
 
         for (int i = 0; i < motifs.size(); i++) {
             Motif motif = motifs.get(i);
+            if (motif.coefficient == 0) {
+                // The star M12 contains no P4 (coefficient 0), so it cannot be estimated by
+                // path sampling; its exact count follows from the degree sequence. Dividing
+                // by the zero coefficient used to print NaN here.
+                estimates[i] = graph.starCountM12();
+                continue;
+            }
             estimates[i] = (final_results[i] / k) * graph.totalFourPathCount / motif.coefficient;
         }
         return estimates;

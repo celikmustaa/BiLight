@@ -120,6 +120,10 @@ public class Main {
         // usually means the two columns collapsed into one namespace (see -disjoint).
         System.out.println("Host is bipartite: " + graph.hostIsBipartite);
 
+        // Exact count of the star M12 (sum_v C(deg(v),5)): computed once here, so it is part of
+        // the one-time setup cost and not of any sampling run's RUNTIME.
+        System.out.println("Star M12 (exact): " + new DecimalFormat("0.####E0").format(graph.starCountM12()));
+
         long totalSetupEndTime = System.currentTimeMillis();
         long totalSetupRuntime = totalSetupEndTime - totalSetupStartTime;
 

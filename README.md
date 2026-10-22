@@ -48,7 +48,10 @@ before sampling.
 
 Results are printed to stdout and appended to `results.txt` in the working directory: graph statistics
 (vertices, edges, total 4-path count, setup time), then one row per sample budget with the 17 motif
-estimates in scientific notation and the run time in milliseconds.
+estimates in scientific notation, the run time in milliseconds and the number of rejected
+degenerate draws. The star `M12` (K1,5) contains no 4-path, so it is not sampled: its column holds
+the exact count `sum_v C(deg(v), 5)`, the same in every row. The run time covers sampling only;
+the one-time setup (loading, largest component, edge sampler, `M12`) is reported separately.
 
 ## Tests
 
@@ -74,7 +77,7 @@ python3 test/verify_with_networkx.py                # independent audit of the o
 python3 test/verify_with_networkx.py --self         # pure-python fallback, no dependencies
 ```
 
-The suite also checks the analytic `M12` formula and that the sampler's `totalFourPathCount` equals
+The suite also checks the analytic `M12` formula (and that the value the estimator outputs for `M12` matches it) and that the sampler's `totalFourPathCount` equals
 the enumerated non-degenerate seed count. See [test/README.md](test/README.md).
 
 ## Format conversion

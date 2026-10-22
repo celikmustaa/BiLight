@@ -28,6 +28,31 @@ public class Graph {
      *  per run to report collisions for that run. */
     public long collisionCount = 0;
 
+    /** Cached exact count of the star motif M12 (K_{1,5}); see {@link #starCountM12()}. */
+    private Double starCountM12 = null;
+
+    /**
+     * Exact non-induced count of the star K_{1,5} (motif M12): sum over v of C(deg(v), 5).
+     * Every copy is a centre plus 5 of its neighbours, on any host graph, so no sampling is
+     * needed (M12 contains no P4, so the path sampler could not estimate it anyway).
+     * Computed exactly with BigInteger, since C(d,5) overflows a long once d exceeds ~6000,
+     * and returned as a double. Call after keepLargestConnectedComponent(); the result is cached.
+     */
+    public double starCountM12() {
+        if (starCountM12 == null) {
+            java.math.BigInteger sum = java.math.BigInteger.ZERO;
+            for (Node node : map.values()) {
+                long d = node.degree;
+                if (d < 5) continue;
+                java.math.BigInteger c = java.math.BigInteger.ONE;
+                for (int i = 0; i < 5; i++) c = c.multiply(java.math.BigInteger.valueOf(d - i));
+                sum = sum.add(c.divide(java.math.BigInteger.valueOf(120)));
+            }
+            starCountM12 = sum.doubleValue();
+        }
+        return starCountM12;
+    }
+
     public Graph() {
         this.map = new HashMap<>();
         this.edge_list = new ArrayList<>();
